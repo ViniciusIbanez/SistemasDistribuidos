@@ -20,16 +20,18 @@ def retrieve_tweets(args):
 
     today = datetime.now().strftime("%Y-%m-%d")
     since  =  (datetime.now() - timedelta(days=365*2)).strftime("%Y-%m-%d")
-
+    tweets =  []
     for i,tweet in enumerate(sntwitter.TwitterSearchScraper(f'from:@{user} + since:{since} until:{today}-filter:replies').get_items()):
         if i > maxTweets :
             break
-        logging.info(f'User: {user} Tweet_count: {i} Tweet_content: {tweet.content}\n')
+        tweets.append(f'Tweet_count: {i} Tweet_content: {tweet.content}\n')
+        
+
+    return {'user': user, 'tweets': tweets}
 
 
 def run():
     args = retrieve_arguments()
-    retrieve_tweets(args)
-    return True 
+    tweets = retrieve_tweets(args)
+    return tweets 
 
-run()

@@ -16,10 +16,13 @@ def run_docker_test():
     pool_max =  request_config.get('pool_max')
 
     inital_time = time.time()
-    run_test(nodes, pool_max, tweets_to_retrieve)
-    duration_time = time.time() - inital_time
+    result = run_test(nodes, pool_max, tweets_to_retrieve)
 
-    return jsonify(code = 200, body={"nodes": nodes, "pool_max": pool_max, "duration_time": duration_time})
+    if result:
+        duration_time = time.time() - inital_time
+        return jsonify(code = 200, body={"nodes": nodes, "pool_max": pool_max, "duration_time": duration_time})
+    else:
+        return jsonify(code = 403, body={"message": "ERROR"})
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0",  port=5000)
