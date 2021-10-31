@@ -21,7 +21,9 @@ def retrieve_clients(clients_number = None):
             logging.info(f'Starting docker client: {node_id}')
             url = node.get('url')
             client = docker.DockerClient(base_url=f'tcp://{url}:4243',  tls=False)
-            docker_clients.append(client)
+            is_updated = pull_image(client)
+            if is_updated:
+                docker_clients.append(client)
         except Exception as e:
             logging.error(e)
 
@@ -33,7 +35,6 @@ def run_test(clients_num = None, pool_max = 3, tweets_to_retrieve = 10):
     futures = []
     responses = []
 
-    #pool = ThreadPoolExecutor(pool_max)
     with ThreadPoolExecutor(max_workers=pool_max) as pool:
         for user in users:
             future = pool.submit(run_docker, random.choice(docker_clients), (user), tweets_to_retrieve)
@@ -44,6 +45,9 @@ def run_test(clients_num = None, pool_max = 3, tweets_to_retrieve = 10):
 
     return len(responses)
     
+def pull_image(client):
+    image = client.images.pull('viniciusalves/tweet_extractor')
+    return True
         
 def run_docker (client, user, count):
     container = client.containers.run(f'viniciusalves/tweet_extractor',f'--u {user}  --n {count}', detach=True)
