@@ -1,0 +1,21 @@
+{
+    "iterations":5,
+    "config":[
+    {
+        "nodes": 3,
+        "tweets_to_retrieve":100,
+        "pool_max": 6
+    },
+    {
+        "nodes": 2,
+        "tweets_to_retrieve":100,
+        "pool_max": 4
+    },
+    {
+        "nodes": 1,
+        "tweets_to_retrieve":100,
+        "pool_max": 3
+    }
+
+]
+}

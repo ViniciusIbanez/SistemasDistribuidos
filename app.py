@@ -20,7 +20,7 @@ def run_docker_test():
 
     if result:
         duration_time = time.time() - inital_time
-        return jsonify(code = 200, body={"nodes": nodes, "pool_max": pool_max, "duration_time": duration_time})
+        return jsonify(code = 200, body={"nodes": nodes, "pool_max": pool_max, "duration_time": duration_time, "tweets_to_retrieve": tweets_to_retrieve})
     else:
         return jsonify(code = 403, body={"message": "ERROR"})
 
