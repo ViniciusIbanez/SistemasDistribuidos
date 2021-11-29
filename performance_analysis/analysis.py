@@ -27,7 +27,7 @@ class Analysis:
     def run_test(self):
         config_object = self.model
 
-        for i in range(0, config_object.get('repetition')):
+        for i in range(0, config_object.get('iterations')):
             for config in config_object.get('config'):
                 self.retrieve_and_persist_result(config)
 
